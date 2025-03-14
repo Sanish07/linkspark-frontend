@@ -2,7 +2,7 @@ import { FaLink, FaUsers, FaRocket } from "react-icons/fa";
 
 const AboutUs = () => {
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12">
+    <div className="max-w-5xl mx-auto px-6 py-12 mt-25">
       {/* Head Section */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-800 mb-3">About Linkspark - URL Shortenening Service</h1>

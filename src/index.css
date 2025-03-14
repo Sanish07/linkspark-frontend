@@ -1,18 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
 @import "tailwindcss";
 
 :root {
   /* Colors */
-  --navbar-color: #ffffff;
+  /* --navbar-color: #ffffff;
   --btn-color: #3364F7;
-  --link-color: #2a5bd7;
+  --link-color: #2a5bd7; */
 
   /* Gradients */
   --custom-gradient: linear-gradient(to right, #3b82f6, #9333ea);
   --custom-gradient-2: linear-gradient(to left, #3b82f6, #f43f5e);
-  --card-gradient: linear-gradient(to right, #38b2ac, #4299e1);
+  
+  --custom-gradient-3: linear-gradient(to right, #7f22fe, #456fe8);
+  --custom-gradient-4: linear-gradient(to left, #7f22fe, #456fe8);
 
   /* Box Shadows */
   --shadow-custom: 0 0 15px rgba(0, 0, 0, 0.3);
@@ -26,6 +29,14 @@
 
 .bg-custom-gradient-2 {
   background-image: var(--custom-gradient-2);
+}
+
+.bg-custom-gradient-3 {
+  background-image: var(--custom-gradient-3);
+}
+
+.bg-custom-gradient-4 {
+  background-image: var(--custom-gradient-4);
 }
 
 .bg-card-gradient {
@@ -46,4 +57,28 @@
 
 .font-montserrat {
   font-family: 'Montserrat', sans-serif;
+}
+
+.font-quicksand {
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.home-btn-1:hover{
+  cursor: pointer;
+  background-image: var(--custom-gradient-4);
+  transition-duration: 800ms;
+}
+
+.home-btn-2{
+  border: 2px solid #456fe8;
+  color : #456fe8;
+}
+
+.home-btn-2:hover{
+  cursor: pointer;
+  background-color: #456fe8;
+  color : #fff;
 }
