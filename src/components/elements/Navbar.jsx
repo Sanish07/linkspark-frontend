@@ -15,14 +15,16 @@ const Navbar = () => {
         <div className="flex items-center gap-4 md:gap-7 text-xs md:text-base">
           <Link to="/" className="hover:text-gray-700">Home</Link>
           <Link to="/about" className="hover:text-gray-700">About</Link>
-          <Link to="" className="hover:text-gray-700">
             {
-              loggedIn === false ?
-              <button className="bg-green-600 text-white px-5 py-1.5 rounded-md font-semibold cursor-pointer hover:bg-green-700 shadow-custom">Sign Up</button>
-              :  <button className="bg-red-500 text-white px-5 py-1.5 rounded-md font-semibold cursor-pointer hover:bg-red-600 shadow-custom">Logout</button>
+              (loggedIn === false) ?
+                <Link to="/signup" className="hover:text-gray-700">
+                  <button className="bg-green-600 text-white px-5 py-1.5 rounded-md font-semibold cursor-pointer hover:bg-green-700 shadow-custom">Sign Up</button>
+                </Link>
+              :
+                <Link to="/" className="hover:text-gray-700">  
+                  <button className="bg-red-500 text-white px-5 py-1.5 rounded-md font-semibold cursor-pointer hover:bg-red-600 shadow-custom">Logout</button>
+                </Link>
             }
-            
-          </Link>
         </div>
       </nav>
   )

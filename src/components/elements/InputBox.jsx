@@ -12,7 +12,7 @@ const InputBox = ({
     placeholder = "",
   }) => {
     return (
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 mb-5">
         
         {label && (
           <label
@@ -28,7 +28,7 @@ const InputBox = ({
           id={id}
           placeholder={placeholder}
           className={`px-3 py-2 border rounded-md outline-none bg-transparent text-gray-700 
-            transition-all duration-200 focus:ring-2 focus:ring-blue-400 
+            transition-all duration-200 focus:ring-2 focus:ring-blue-400 shadow-md
             ${errors[id]?.message ? "border-red-500" : "border-gray-400"} ${className}`}
           {...register(id, {
             required: required ? { value: true, message } : false,
