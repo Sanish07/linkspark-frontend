@@ -18,11 +18,11 @@ const HomePage = () => {
                 Linkspark makes link management effortless. Generate short links, track real-time stats,  
                 and customize URLs to enhance your brand's visibility—all in just a few clicks.
                 </p>
-                <div className="flex gap-5">
-                  <button className="mt-6 px-8 py-3 bg-custom-gradient-3 text-white font-semibold rounded-lg home-btn-1">
+                <div className="flex gap-5 items-center">
+                  <button className="mt-6 px-5 py-3 bg-custom-gradient-1 text-white font-semibold shadow-custom rounded-lg home-btn-1">
                       Generate Short Link!
                   </button>
-                  <button className="mt-6 px-8 py-3 font-semibold rounded-lg home-btn-2">
+                  <button className="mt-6 px-5 py-3 font-semibold rounded-lg home-btn-2 shadow-custom">
                       Configure Links
                   </button>
                 </div>
@@ -35,14 +35,14 @@ const HomePage = () => {
         
       
 
-      {/* Features Section */}
+      {/* Feature Cards Section */}
 
       <section id="features" className="py-16 px-6 max-w-7xl mx-auto">
         <h3 className="text-3xl font-bold text-center mb-8">Why Choose Linkspark?</h3>
         
         <div className="grid md:grid-cols-4 gap-8">
           
-          <div className="p-6 border rounded-lg shadow-md">
+          <div className="p-6 border rounded-lg shadow-right bg-white">
             <FaSlideshare className="text-yellow-500 text-5xl mx-auto mb-4" />
             <h4 className="text-xl font-semibold">Effortless Link Shortening</h4>
             <p className="text-gray-600 mt-2">
@@ -50,7 +50,7 @@ const HomePage = () => {
             </p>
           </div>
           
-          <div className="p-6 border rounded-lg shadow-md">
+          <div className="p-6 border rounded-lg shadow-right bg-white">
             <FaBolt className="text-rose-500 text-5xl mx-auto mb-4" />
             <h4 className="text-xl font-semibold">Blazing-Fast Performance</h4>
             <p className="text-gray-600 mt-2">
@@ -58,7 +58,7 @@ const HomePage = () => {
             </p>
           </div>
           
-          <div className="p-6 border rounded-lg shadow-md">
+          <div className="p-6 border rounded-lg shadow-right bg-white">
             <MdOutlineSecurity className="text-green-700 text-5xl mx-auto mb-4" />
             <h4 className="text-xl font-semibold">Reliable Security & Protection</h4>
             <p className="text-gray-600 mt-2">
@@ -66,7 +66,7 @@ const HomePage = () => {
             </p>
           </div>
           
-          <div className="p-6 border rounded-lg shadow-md">
+          <div className="p-6 border rounded-lg shadow-right bg-white">
             <FaChartBar className="text-indigo-600 text-5xl mx-auto mb-4" />
             <h4 className="text-xl font-semibold">Advanced Analytics</h4>
             <p className="text-gray-600 mt-2">
