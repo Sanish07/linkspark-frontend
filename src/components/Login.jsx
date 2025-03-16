@@ -2,8 +2,16 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import InputBox from "./elements/InputBox";
 import { Link } from "react-router-dom";
+import { LoginUser } from "../services/ConnectAPI";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useStoreContext } from "../Contexts/ContextApi";
 
 const Login = () => {
+
+  const navigate = useNavigate();
+  const { setToken } = useStoreContext();
+
   const {
     register,
     handleSubmit,
@@ -20,7 +28,22 @@ const Login = () => {
   const[loadingStateOn,setLoadingStateOn] = useState(false);
 
   const loginHandler = async (data) => {
-    console.log("User Data:", data);
+    setLoadingStateOn(true);
+    
+    LoginUser(data).then((response) => { //Making API call for user login
+      
+      localStorage.setItem("LS_JWT_TOKEN",JSON.stringify(response.data.token));
+      setToken(response.data.token); //Setting the JWT token in the application context 
+      
+      reset(); // Resetting form after successful registration
+      toast.success('Logged In Successfully!');
+      navigate("/");
+    }).catch((res_error)=>{
+      const error_message = res_error.message ? res_error.message + ". Make sure Username and Password are correct." : "Encountered an issue while logging in the user!!";
+      toast.error(error_message);
+    });
+
+    setLoadingStateOn(false);
   };
 
   return (
@@ -44,7 +67,6 @@ const Login = () => {
           register={register}
           required={true}
           message="Username is required"
-          min={5}
           errors={errors}
           className=""
         />
@@ -59,7 +81,6 @@ const Login = () => {
           register={register}
           required={true}
           message="Password is required"
-          min={8}
           errors={errors}
         />
 
@@ -67,7 +88,7 @@ const Login = () => {
         <button
           type="submit"
           className="w-full mt-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 cursor-pointer transition-all shadow-custom"
-          disabled={setLoadingStateOn}>
+          disabled={loadingStateOn}>
           { loadingStateOn ? "Loading..." : "Login!" }
         </button>
 

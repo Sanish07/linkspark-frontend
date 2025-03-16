@@ -1,8 +1,15 @@
-import { FaLink, FaChartBar } from "react-icons/fa";
+import React from "react";
+import { FaChartBar } from "react-icons/fa";
 import { FaSlideshare, FaBolt } from "react-icons/fa6";
 import { MdOutlineSecurity } from "react-icons/md";
+import { useStoreContext } from "../Contexts/ContextApi";
 
 const HomePage = () => {
+
+  const { token } = useStoreContext();
+
+  console.log("Login Token from Application Context : "+ token);
+  
   return (
     <div className="bg-indigo-50 text-slate-900 mt-15">
       
