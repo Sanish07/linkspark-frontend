@@ -1,6 +1,7 @@
 const InputBox = ({
     label,
     id,
+    name,
     type = "text",
     errors,
     register,
@@ -16,7 +17,7 @@ const InputBox = ({
         
         {label && (
           <label
-            htmlFor={id}
+            htmlFor={id || name}
             className={`font-semibold text-md text-gray-800 ${className}`}
           >
             {label}
@@ -25,12 +26,12 @@ const InputBox = ({
   
         <input
           type={type}
-          id={id}
+          id={id || name}
           placeholder={placeholder}
           className={`px-3 py-2 border rounded-md outline-none bg-transparent text-gray-700 
             transition-all duration-200 focus:ring-2 focus:ring-blue-400 shadow-md
-            ${errors[id]?.message ? "border-red-500" : "border-gray-400"} ${className}`}
-          {...register(id, {
+            ${errors[name]?.message ? "border-red-500" : "border-gray-400"} ${className}`}
+          {...register(name, {
             required: required ? { value: true, message } : false,
             minLength: min
               ? { value: min, message: `Minimum ${min} characters required` }
@@ -52,9 +53,9 @@ const InputBox = ({
         />
   
         {/* Error Message */}
-        {errors[id]?.message && (
+        {errors[name]?.message && (
           <p className="text-sm font-semibold text-red-600 mt-1">
-            {errors[id]?.message}
+            {errors[name]?.message}
           </p>
         )}
       </div>

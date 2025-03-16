@@ -21,7 +21,6 @@ const Login = () => {
 
   const loginHandler = async (data) => {
     console.log("User Data:", data);
-    reset(); // Resetting form after submission
   };
 
   return (
@@ -39,6 +38,7 @@ const Login = () => {
         <InputBox
           label="Username"
           id="l-username"
+          name="username"
           type="text"
           placeholder="Enter your username"
           register={register}
@@ -53,6 +53,7 @@ const Login = () => {
         <InputBox
           label="Password"
           id="l-password"
+          name="password"
           type="password"
           placeholder="Enter your password"
           register={register}

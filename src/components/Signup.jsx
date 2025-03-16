@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import InputBox from "./elements/InputBox";
 import { Link, useNavigate } from "react-router-dom";
-import { SignupUser } from "../services/BackendConfig";
+import { SignupUser } from "../services/ConnectAPI";
 
 const Signup = () => {
 
@@ -27,15 +27,14 @@ const Signup = () => {
 
   const signupHandler = async (data) => {
     setLoadingStateOn(true);
-
+    
     SignupUser(data).then((response) => { //Making API call for registering the user
-      console.log(response);
       reset(); // Resetting form after successful registration
       navigate("/login");
-      toast.success('User signed up sucessfully!');
+      toast.success('User signed up successfully! Please login to continue.');
     }).catch((res_error)=>{
-      console.error(res_error);
-      toast.success('Encountered an error while signing up the user...');
+      const error_message = res_error.response.data ? res_error.response.data : "Encountered an issue while signing up the user!!";
+      toast.error(error_message);
     });
 
     setLoadingStateOn(false);
@@ -56,6 +55,7 @@ const Signup = () => {
         <InputBox
           label="Username"
           id="s-username"
+          name="username"
           type="text"
           placeholder="Enter your username"
           register={register}
@@ -70,6 +70,7 @@ const Signup = () => {
         <InputBox
           label="Email"
           id="s-email"
+          name="email"
           type="email"
           placeholder="Enter your email"
           register={register}
@@ -82,6 +83,7 @@ const Signup = () => {
         <InputBox
           label="Password"
           id="s-password"
+          name="password"
           type="password"
           placeholder="Enter your password"
           register={register}
