@@ -37,7 +37,7 @@ const Login = () => {
       
       reset(); // Resetting form after successful registration
       toast.success('Logged In Successfully!');
-      navigate("/");
+      navigate("/dashboard");
     }).catch((res_error)=>{
       const error_message = res_error.message ? res_error.message + ". Make sure Username and Password are correct." : "Encountered an issue while logging in the user!!";
       toast.error(error_message);

@@ -7,6 +7,7 @@ import Navbar from "./components/elements/Navbar";
 import Footer from "./components/elements/Footer";
 import Signup from "./components/SignUp";
 import Login from "./components/Login";
+import UserDashboard from "./components/UserDashboard";
 
 function App() {
   
@@ -17,9 +18,10 @@ function App() {
         <Navbar/>
           <Routes>
             <Route path="/" element={<HomePage/>}/>
-            <Route path="/about" element={<AboutUs/>}/>
+            <Route path="/dashboard" element={<UserDashboard/>}/>
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/login" element={<Login/>}/>
+            <Route path="/about" element={<AboutUs/>}/>
           </Routes>
         <Footer/>
       </BrowserRouter>
