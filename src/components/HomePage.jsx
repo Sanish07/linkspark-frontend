@@ -6,7 +6,7 @@ import { MdOutlineSecurity } from "react-icons/md";
 const HomePage = () => {
   
   return (
-    <div className="bg-indigo-50 text-slate-900 mt-15">
+    <div className="bg-indigo-50 text-slate-900">
       
       {/* Hero Section */}
       
