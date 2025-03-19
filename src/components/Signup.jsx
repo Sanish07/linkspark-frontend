@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import InputBox from "./elements/InputBox";
 import { Link, useNavigate } from "react-router-dom";
-import { SignupUser } from "../services/ConnectAPI";
+import { SignupUser } from "../services/AuthenticateAPI";
 
 const Signup = () => {
 

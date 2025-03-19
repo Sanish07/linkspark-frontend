@@ -24,14 +24,14 @@ const ClickStatsLineChart = ({ chartData }) => {
     datasets: [
       {
         label: "Total Clicks",
-        data: clickCounts.length > 0 ? clickCounts : [], // Sample data
-        backgroundColor: "rgba(183, 153, 255, 0.4)", // Soft blue background fill
+        data: clickCounts.length > 0 ? clickCounts : [],
+        backgroundColor: "rgba(183, 153, 255, 0.4)",
         borderColor: "#7f22fe",
         pointBorderColor: "#1D2327",
         pointBackgroundColor: "#ffffff",
         borderWidth: 3,
         fill: true,
-        tension: 0.4,
+        // tension: 0.4,
       },
     ],
   };

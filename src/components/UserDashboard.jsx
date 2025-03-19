@@ -7,6 +7,10 @@ import { useFetchTotalClicks } from "../services/QueryService";
 import ClickStatsBarChart from "./elements/charts/ClickStatsBarChart";
 import { BiErrorCircle } from "react-icons/bi";
 import StatCard from "./elements/StatCard";
+import { useForm } from "react-hook-form";
+import InputBox from "./elements/InputBox";
+import toast from "react-hot-toast";
+import { CreateNewShortURL } from "../services/UrlManagementAPI";
 
 const UserDashboard = () => {
 
@@ -26,9 +30,38 @@ const UserDashboard = () => {
   //Short URL creation and list display states and variables
   const [isCreating, setIsCreating] = useState(false);
   
-  const [url, setUrl] = useState("");
+  const {
+      register,
+      handleSubmit,
+      reset,
+      formState: { errors },
+    } = useForm({
+      defaultValues: {
+        originalUrl : ""
+      },
+      mode: "onTouched",
+    });
+
   
-  const [urls,setUrls] = useState([
+  const[loadingStateOn,setLoadingStateOn] = useState(false);
+
+  const handleCreateShortUrl = async(data) => {
+    // toast.success(data.originalUrl);
+    setLoadingStateOn(true);
+
+    CreateNewShortURL(data,token).then((response)=>{
+      reset(); // Resetting the URL enter field
+      setIsCreating(false);
+      toast.success('Short URL created successfully!');
+    }).catch((res_error)=>{
+      const error_message = res_error.response.data ? res_error.response.data : "Encountered an issue while creating the short URL!!";
+      toast.error(error_message);
+    });
+
+    setLoadingStateOn(false);
+  };
+
+  const [urls,ssetUrls] = useState([
     { original: "https://example.com", short: "https://sho.rt/abc", clicks: 120, createdAt: "2025-03-19" },
     { original: "https://google.com", short: "https://sho.rt/xyz", clicks: 250, createdAt: "2025-03-18" }
   ]);
@@ -103,45 +136,61 @@ const UserDashboard = () => {
               </button>
             ) : (
               <div className="mt-4">
-                <input
-                  type="text"
-                  placeholder="Paste your URL here..."
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <div className="flex justify-end gap-3 mt-4">
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-600"
-                    onClick={() => setIsCreating(false)}
-                  >
-                    <FiX /> Cancel
-                  </button>
-                  <button
-                    className="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-600"
-                    onClick={() => alert(`Shortened URL for: ${url}`)}
-                  >
-                    <FiCheck /> Create
-                  </button>
-                </div>
+                <form
+                  className="bg-white rounded-lg p-8 w-full"
+                  onSubmit={handleSubmit(handleCreateShortUrl)}>
+
+                    <InputBox
+                      label="Enter The Original URL*"
+                      id="d-create"
+                      name="originalUrl"
+                      type="url"
+                      placeholder="https://internet.com"
+                      register={register}
+                      required={true}
+                      message="URL field cannot be empty"
+                      errors={errors}
+                    />
+
+                    <div className="flex justify-start items-center gap-3">
+                      <button
+                        type="submit"
+                        className="flex items-center justify-center gap-2 w-35 mt-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-green-700 cursor-pointer transition-all shadow-custom"
+                        disabled={loadingStateOn}>
+                        <FiCheck /> { loadingStateOn ? "Loading..." : "Create" }
+                      </button>
+                      <button
+                        onClick={() => { 
+                          reset();
+                          setIsCreating(false);
+                        }}
+                        className="flex items-center justify-center gap-2 w-35 mt-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-red-600 cursor-pointer transition-all shadow-custom"
+                        disabled={loadingStateOn}>
+                          <FiX /> { loadingStateOn ? "Loading..." : "Cancel" }
+                      </button>
+                    </div>
+                </form>
               </div>
             )}
             
+            {/* Short URLs displayed in tables */}
             <div className="mt-12">
               <h3 className="text-lg font-semibold mb-3">Your Short URLs</h3>
-              <div className="overflow-x-auto shadow-lg">
+              <div className="overflow-x-auto shadow-lg rounded-lg">
                 <table className="w-full border-collapse border border-gray-300">
                   <thead>
-                    <tr className="bg-gray-300">
-                      <th className="border border-gray-300 px-4 py-2 text-center">Original URL</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Short URL</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Clicks</th>
-                      <th className="border border-gray-300 px-4 py-2 text-center">Created At</th>
+                    <tr className="bg-blue-500 text-white">
+                      <th className="border border-white px-4 py-2 text-center">Sr No.</th>
+                      <th className="border border-white px-4 py-2 text-center">Original URL</th>
+                      <th className="border border-white px-4 py-2 text-center">Short URL</th>
+                      <th className="border border-white px-4 py-2 text-center">Total Clicks</th>
+                      <th className="border border-white px-4 py-2 text-center">Created At</th>
                     </tr>
                   </thead>
                   <tbody>
                     {urls.map((url, index) => (
                       <tr key={index} className="border border-gray-300">
+                        <td className="border border-gray-300 px-4 py-2 text-center truncate max-w-xs">{index + 1}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center truncate max-w-xs">{url.original}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center text-blue-500 cursor-pointer">{url.short}</td>
                         <td className="border border-gray-300 px-4 py-2 text-center">{url.clicks}</td>

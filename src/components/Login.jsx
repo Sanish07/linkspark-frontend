@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import InputBox from "./elements/InputBox";
 import { Link } from "react-router-dom";
-import { LoginUser } from "../services/ConnectAPI";
+import { LoginUser } from "../services/AuthenticateAPI";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useStoreContext } from "../Contexts/ContextApi";
