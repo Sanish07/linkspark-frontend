@@ -3,7 +3,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-tl from-blue-600 to-purple-500 text-white py-6 px-8">
+    <footer className="bg-gradient-to-tl from-blue-500 to-sky-600 text-white py-6 px-8">
       <div className="container mx-auto flex flex-wrap justify-between items-center text-center md:text-left">
         
         {/* Application Name */}

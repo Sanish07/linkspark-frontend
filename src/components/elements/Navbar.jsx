@@ -8,9 +8,9 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="mb-20"></div>
-      <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-blue-700 to-purple-600 text-white shadow-lg py-4 px-6 flex justify-between items-center z-50">
-        
+      <div className="mb-18"></div>
+      <nav className="fixed top-0 left-0 w-full bg-gradient-to-l from-blue-500 to-sky-700 text-white shadow-lg py-4 px-6 flex justify-between items-center z-50">
+        {/* Gradient classnames for navbar ^ bg-gradient-to-r from-blue-700 to-purple-600  */}
         {/* Logo & Brand */}
         <Link to="/" className="flex gap-2 items-center">
           <img src={"ls-logo.png"} className="max-h-10" alt="Linkspark Logo" />

@@ -6,7 +6,7 @@ export const useFetchTotalClicks = (token, onError) => {
     queryKey: ["totalClicks", token],
     queryFn: async () => {
         const response = await QueryConnApi.get(
-          "/api/urls/totalClicks?fromDate=2024-03-10&toDate=2024-03-19",
+          "/api/urls/totalClicks?fromDate=2025-03-10&toDate=2025-03-19",
           {
             headers: {
               "Content-Type": "application/json",
