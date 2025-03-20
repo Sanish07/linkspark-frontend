@@ -3,7 +3,7 @@ import ClickStatsLineChart from "./elements/charts/ClickStatsLineChart";
 import { HiUsers } from "react-icons/hi2";
 import { FiLink, FiActivity, FiList, FiPlus, FiX, FiCheck } from "react-icons/fi";
 import { useStoreContext } from "../Contexts/ContextApi";
-import { useFetchTotalClicks } from "../services/QueryService";
+import { useFetchAllUrlData, useFetchTotalClicks } from "../services/QueryService";
 import ClickStatsBarChart from "./elements/charts/ClickStatsBarChart";
 import { BiErrorCircle } from "react-icons/bi";
 import StatCard from "./elements/StatCard";
@@ -11,8 +11,14 @@ import { useForm } from "react-hook-form";
 import InputBox from "./elements/InputBox";
 import toast from "react-hot-toast";
 import { CreateNewShortURL } from "../services/UrlManagementAPI";
+import { IoCopy } from "react-icons/io5";
+import { RiDeleteBin2Fill } from "react-icons/ri";
+import UrlCards from "./elements/UrlCards";
 
 const UserDashboard = () => {
+  
+  //Short URL links redirection subdomain 
+  const client_subdomain_url = import.meta.env.VITE_CLIENT_SUBDOMAIN_URL;
 
   //Token from Context API
   const { token } = useStoreContext();
@@ -22,12 +28,12 @@ const UserDashboard = () => {
     console.log("ERROR!");
   }
 
-  const {isLoading, data : totalClickData} = useFetchTotalClicks(token, onError);
+  const {isLoading : isClickDataLoading, data : totalClickData} = useFetchTotalClicks(token, onError);
 
   //Chart toggle state
   const [isLineChart, setIsLineChart] = useState(true);
 
-  //Short URL creation and list display states and variables
+  //Short URL creation
   const [isCreating, setIsCreating] = useState(false);
   
   const {
@@ -46,13 +52,18 @@ const UserDashboard = () => {
   const[loadingStateOn,setLoadingStateOn] = useState(false);
 
   const handleCreateShortUrl = async(data) => {
-    // toast.success(data.originalUrl);
     setLoadingStateOn(true);
 
     CreateNewShortURL(data,token).then((response)=>{
+      const generated_s_url = 
+            response.data.shortUrl ? `${client_subdomain_url}/${response.data.shortUrl}` : "";
+
+      navigator.clipboard.writeText(generated_s_url); //Copy newly generated short url to clipboard
       reset(); // Resetting the URL enter field
-      setIsCreating(false);
-      toast.success('Short URL created successfully!');
+      setIsCreating(false); //Exit the url creation mode
+      toast.success('Short URL created successfully and copied to clipboard!',{
+        duration : 3000
+      });
     }).catch((res_error)=>{
       const error_message = res_error.response.data ? res_error.response.data : "Encountered an issue while creating the short URL!!";
       toast.error(error_message);
@@ -61,25 +72,40 @@ const UserDashboard = () => {
     setLoadingStateOn(false);
   };
 
-  const [urls,ssetUrls] = useState([
-    { original: "https://example.com", short: "https://sho.rt/abc", clicks: 120, createdAt: "2025-03-19" },
-    { original: "https://google.com", short: "https://sho.rt/xyz", clicks: 250, createdAt: "2025-03-18" }
-  ]);
+  // Display all User's URLs
+  const dataFetchError = () => {
+    console.log("ERROR!");
+  }
+
+  const {isLoading : isUrlDataLoading, data : urls = []} = useFetchAllUrlData(token, dataFetchError);
+
+  //Stat Cards Info
+  const stats_data = {
+    totalUsers : 300,
+    userLinks : (urls.length ? urls.length : "0"),
+    totalUserLinksClicks : (urls.length > 0 ? 
+      urls.reduce((total,currentUrl) => 
+        {
+          return total + currentUrl.clickCount
+        }, 0) 
+        : 
+        "0")
+  };
 
   return (
     <>
-      { isLoading ? 
+      { isClickDataLoading ? 
       <div className="flex justify-center items-center">Loading...</div> 
       : <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
         {/* Dashboard Sidebar (Left side) */}
         <aside className="w-full md:w-1/4 lg:w-1/5 bg-gray-800 shadow-lg p-6 md:min-h-screen">
           <h1 className="text-2xl font-bold text-gray-100 mb-8">Dashboard</h1>
           <ul className="space-y-6">
-            <li className="text-gray-200 hover:bg-gray-700 px-4 py-3 rounded-lg cursor-pointer transition-all flex items-center gap-3">
-              <FiLink className="text-blue-400 text-lg" /> Create New Short URL
+            <li className="text-gray-200 hover:bg-gray-700 px-4 py-3 rounded-lg cursor-pointer transition-all">
+              <a href="#create-section" className="flex items-center gap-3"><FiLink className="text-blue-400 text-lg" /> Create New Short URL</a>
             </li>
             <li className="text-gray-200 hover:bg-gray-700 px-4 py-3 rounded-lg cursor-pointer transition-all flex items-center gap-3">
-              <FiList className="text-blue-400 text-lg" /> View Full List of URLs
+              <a href="#url-section" className="flex items-center gap-3"><FiList className="text-blue-400 text-lg" /> View Full List of URLs</a>
             </li>
           </ul>
         </aside>
@@ -88,9 +114,9 @@ const UserDashboard = () => {
         <main className="flex-1 p-6">
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-            <StatCard icon={<HiUsers />} label="Total Users" value="12,345" color={"text-indigo-500"}/>
-            <StatCard icon={<FiLink />} label="Your Total Links" value="12" color={"text-yellow-500"}/>
-            <StatCard icon={<FiActivity />} label="Total Clicks on Your Links" value="3800" color={"text-green-500"}/>
+            <StatCard icon={<HiUsers />} label="Total Users" value={stats_data.totalUsers} color={"text-indigo-500"}/>
+            <StatCard icon={<FiLink />} label="Your Total Links" value={stats_data.userLinks} color={"text-yellow-500"}/>
+            <StatCard icon={<FiActivity />} label="Total Clicks on Your Links" value={stats_data.totalUserLinksClicks} color={"text-green-500"}/>
           </div>
 
           {/* Click Stats Chart Section */}
@@ -126,7 +152,7 @@ const UserDashboard = () => {
 
           {/* Short URL Management Section */}
           <div className="bg-white p-6 rounded-lg shadow-md min-h-75">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Short URLs Management</h2>
+            <h2 id="create-section" className="text-xl font-bold text-gray-800 mb-4">Short URLs Management</h2>
             {!isCreating ? (
               <button
                 className="flex items-center short-url-btn bg-gradient-to-l from-blue-500 to-purple-400 text-white px-4 py-2 rounded-lg gap-2 cursor-pointer"
@@ -174,33 +200,9 @@ const UserDashboard = () => {
             )}
             
             {/* Short URLs displayed in tables */}
-            <div className="mt-12">
-              <h3 className="text-lg font-semibold mb-3">Your Short URLs</h3>
-              <div className="overflow-x-auto shadow-lg rounded-lg">
-                <table className="w-full border-collapse border border-gray-300">
-                  <thead>
-                    <tr className="bg-blue-500 text-white">
-                      <th className="border border-white px-4 py-2 text-center">Sr No.</th>
-                      <th className="border border-white px-4 py-2 text-center">Original URL</th>
-                      <th className="border border-white px-4 py-2 text-center">Short URL</th>
-                      <th className="border border-white px-4 py-2 text-center">Total Clicks</th>
-                      <th className="border border-white px-4 py-2 text-center">Created At</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {urls.map((url, index) => (
-                      <tr key={index} className="border border-gray-300">
-                        <td className="border border-gray-300 px-4 py-2 text-center truncate max-w-xs">{index + 1}</td>
-                        <td className="border border-gray-300 px-4 py-2 text-center truncate max-w-xs">{url.original}</td>
-                        <td className="border border-gray-300 px-4 py-2 text-center text-blue-500 cursor-pointer">{url.short}</td>
-                        <td className="border border-gray-300 px-4 py-2 text-center">{url.clicks}</td>
-                        <td className="border border-gray-300 px-4 py-2 text-center">{url.createdAt}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <span id="url-section"></span>
+            <UrlCards isUrlDataLoading={isUrlDataLoading} urls={urls} client_subdomain_url={client_subdomain_url} loadingStateOn={loadingStateOn}/>
+            
           </div>
 
         </main>

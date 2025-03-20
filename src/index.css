@@ -5,6 +5,8 @@
 @import "tailwindcss";
 
 :root {
+
+  scroll-behavior: smooth;
   
   /* Gradients */
   --custom-gradient-1: linear-gradient(to right, #7f22fe, #456fe8);

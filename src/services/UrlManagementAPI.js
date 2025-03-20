@@ -1,7 +1,6 @@
 import Axios from "axios";
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
-const client_subdomain_url = import.meta.env.VITE_CLIENT_SUBDOMAIN_URL;
 
 export const CreateNewShortURL = async(data, token) => {
     const route = baseURL + "/api/urls/shorten";

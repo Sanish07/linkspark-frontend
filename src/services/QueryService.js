@@ -6,7 +6,7 @@ export const useFetchTotalClicks = (token, onError) => {
     queryKey: ["totalClicks", token],
     queryFn: async () => {
         const response = await QueryConnApi.get(
-          "/api/urls/totalClicks?fromDate=2025-03-10&toDate=2025-03-19",
+          "/api/urls/totalClicks?fromDate=2025-03-15&toDate=2025-03-29",
           {
             headers: {
               "Content-Type": "application/json",
@@ -24,6 +24,28 @@ export const useFetchTotalClicks = (token, onError) => {
         ));
 
         return response_arr;
+      },
+    onError
+  });
+};
+
+export const useFetchAllUrlData = (token, onError) => {
+  return useQuery({
+    queryKey: ["urlData", token],
+    queryFn: async () => {
+        const response = await QueryConnApi.get(
+          "/api/urls/active-urls",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        return response.data.sort((date1,date2) => 
+          new Date(date2.createdAt) - new Date(date1.createdAt));
       },
     onError
   });
