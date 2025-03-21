@@ -21,11 +21,11 @@ const ClickStatsBarChart = ({ chartData }) => {
       {
         label: "Total Clicks",
         data: clickCounts.length > 0 ? clickCounts : [],
-        backgroundColor: "#3b82f6",
-        borderColor: "#1D2327",
+        backgroundColor: "rgba(0,132,209,0.7)",
+        borderColor: "#3E3F5B",
         borderWidth: 1,
         barThickness: 25,
-        borderRadius: 5,
+        borderRadius: 5
       },
     ],
   };
@@ -37,6 +37,12 @@ const ClickStatsBarChart = ({ chartData }) => {
       legend: {
         display: true,
         position: "top",
+        labels: {
+          font: {
+            size: 14,
+            weight: "bold",
+          },
+        },
       },
     },
     scales: {

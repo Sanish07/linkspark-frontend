@@ -77,7 +77,7 @@ const UserDashboard = () => {
     console.log("ERROR!");
   }
 
-  const {isLoading : isUrlDataLoading, data : urls = []} = useFetchAllUrlData(token, dataFetchError);
+  const {isLoading : isUrlDataLoading, data : urls = [], refetch : refreshUrlData} = useFetchAllUrlData(token, dataFetchError);
 
   //Stat Cards Info
   const stats_data = {
@@ -201,7 +201,12 @@ const UserDashboard = () => {
             
             {/* Short URLs displayed in tables */}
             <span id="url-section"></span>
-            <UrlCards isUrlDataLoading={isUrlDataLoading} urls={urls} client_subdomain_url={client_subdomain_url} loadingStateOn={loadingStateOn}/>
+            <UrlCards 
+              isUrlDataLoading={isUrlDataLoading} 
+              urls={urls} 
+              client_subdomain_url={client_subdomain_url} 
+              loadingStateOn={loadingStateOn}
+              refreshUrlData={refreshUrlData}/>
             
           </div>
 
