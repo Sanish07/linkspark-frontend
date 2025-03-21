@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ClickStatsLineChart from "./elements/charts/ClickStatsLineChart";
+import ClickStatsBarChart from "./elements/charts/ClickStatsBarChart";
 import { HiUsers } from "react-icons/hi2";
 import { FiLink, FiActivity, FiList, FiPlus, FiX, FiCheck } from "react-icons/fi";
 import { useStoreContext } from "../Contexts/ContextApi";
 import { useFetchAllUrlData, useFetchTotalClicks } from "../services/QueryService";
-import ClickStatsBarChart from "./elements/charts/ClickStatsBarChart";
 import { BiErrorCircle } from "react-icons/bi";
 import StatCard from "./elements/StatCard";
 import { useForm } from "react-hook-form";
@@ -14,6 +14,7 @@ import { CreateNewShortURL } from "../services/UrlManagementAPI";
 import { IoCopy } from "react-icons/io5";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import UrlCards from "./elements/UrlCards";
+import StatsCharts from "./elements/StatsCharts";
 
 const UserDashboard = () => {
   
@@ -30,8 +31,6 @@ const UserDashboard = () => {
 
   const {isLoading : isClickDataLoading, data : totalClickData} = useFetchTotalClicks(token, onError);
 
-  //Chart toggle state
-  const [isLineChart, setIsLineChart] = useState(true);
 
   //Short URL creation
   const [isCreating, setIsCreating] = useState(false);
@@ -133,20 +132,7 @@ const UserDashboard = () => {
                 </p>
               </div>
               :
-              <>
-                  {/* Toggle Switch */}
-                  <div className="flex items-center justify-end mb-4">
-                    <span className={`text-sm font-medium ${isLineChart ? 'text-purple-600' : 'text-gray-600'}`}>Line Chart</span>
-                    <label className="relative inline-flex items-center cursor-pointer mx-2">
-                      <input type="checkbox" checked={!isLineChart} onChange={() => setIsLineChart(!isLineChart)} className="sr-only peer" />
-                      <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer dark:bg-purple-600 peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-sky-600"></div>
-                    </label>
-                    <span className={`text-sm font-medium ${!isLineChart ? 'text-blue-600' : 'text-gray-600'}`}>Bar Chart</span>
-                  </div>
-          
-                  {/* Chart Rendering */}
-                  {isLineChart ? <ClickStatsLineChart chartData={totalClickData} /> : <ClickStatsBarChart chartData={totalClickData} />}
-              </>
+                <StatsCharts totalClickData={totalClickData}/>
             }
           </div>
 
@@ -199,7 +185,7 @@ const UserDashboard = () => {
               </div>
             )}
             
-            {/* Short URLs displayed in tables */}
+            {/* Short URLs displayed in cards */}
             <span id="url-section"></span>
             <UrlCards 
               isUrlDataLoading={isUrlDataLoading} 
@@ -209,7 +195,6 @@ const UserDashboard = () => {
               refreshUrlData={refreshUrlData}/>
             
           </div>
-
         </main>
       </div>}
     </>

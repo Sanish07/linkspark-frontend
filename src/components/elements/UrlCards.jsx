@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { IoCopy } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { ImStatsDots } from "react-icons/im";
@@ -39,6 +40,21 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
         });
     }
 
+    const[selectedUrlData, setSelectedUrlData] = useState({id : -1});
+
+    useEffect(()=>{
+        console.log(selectedUrlData);
+    },[selectedUrlData]);
+
+    //Function to open specific Short URLs stats
+    const handleOpenStats = (data) => {
+        if(selectedUrlData && selectedUrlData.id === data.id){
+            setSelectedUrlData({id : -1});
+        } else{
+            setSelectedUrlData(data);
+        }
+    }
+
   return (
     <div className="mt-12">
         <h3 className="flex justify-start items-center gap-2 text-lg font-semibold mb-4 text-gray-800">
@@ -49,7 +65,8 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
         ? <div className="flex justify-center items-center">Loading...</div> 
         : <div className="mt-6">
             <div className="grid grid-cols-1 gap-6">
-                {urls.map((url, index) => (
+                {
+                urls.map((url, index) => (
                 <div key={index} className="bg-white shadow-lg rounded-lg p-4 border border-gray-300">
                     <h4
                         className="inline-flex gap-1 justify-start items-center text-blue-500 font-bold text-md cursor-pointer truncate hover:underline">
@@ -75,7 +92,7 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
                             <IoCopy/> Copy
                         </button>
                         <button
-                            onClick={() => {}}
+                            onClick={() => handleOpenStats(url)}
                             className="flex items-center justify-center gap-1.5 w-23 lg:w-26 py-2 bg-blue-500 text-white font-semibold rounded-full hover:bg-yellow-500 cursor-pointer transition-all"
                             disabled={loadingStateOn}>
                             <ImStatsDots /> Stats
@@ -87,9 +104,17 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
                             <MdDelete /> Delete
                         </button>
                     </div>
+                    {
+                        (url.id === selectedUrlData.id) ? 
+                        <div className="mt-2">
+                            Doggy!
+                        </div>
+                        : <></>
+                    }
                 </div>
                 ))}
             </div>
+            
         </div>
 }
     </div>
