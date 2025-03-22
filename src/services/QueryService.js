@@ -58,3 +58,39 @@ export const useFetchAllUrlData = (token, onError) => {
     onError
   });
 };
+
+export const useFetchSingleUrlStats = (token, url, onError) => {
+  return useQuery({
+    queryKey: ["url-stats", token, url],
+    queryFn: async () => {
+      if (!url) return [];
+
+      const formatDate = (date) => {
+        return date.toISOString().split(".")[0]; // Remove milliseconds and 'Z'
+      };
+
+      const currentDate = new Date();
+      const fourteenDaysAgo = new Date(currentDate.getTime() - 14 * 24 * 60 * 60 * 1000);
+
+      const fromDate = formatDate(fourteenDaysAgo);
+      const toDate = formatDate(currentDate);
+
+      const response = await QueryConnApi.get(
+        `/api/urls/stats/${url}?fromDate=${fromDate}&toDate=${toDate}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data.sort(
+        (date1, date2) => new Date(date2.clickDate) - new Date(date1.clickDate)
+      );
+    },
+    onError,
+    enabled: !!url,
+  });
+};

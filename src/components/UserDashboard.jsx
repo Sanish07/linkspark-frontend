@@ -192,7 +192,7 @@ const UserDashboard = () => {
               urls={urls} 
               client_subdomain_url={client_subdomain_url} 
               loadingStateOn={loadingStateOn}
-              refreshUrlData={refreshUrlData}/>
+              refreshUrlsData={refreshUrlData}/>
             
           </div>
         </main>

@@ -6,8 +6,13 @@ import { TbHandClick } from "react-icons/tb";
 import { IoIosNavigate, IoMdRefreshCircle } from "react-icons/io";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { useFetchSingleUrlStats } from "../../services/QueryService";
+import { useStoreContext } from "../../Contexts/ContextApi";
+import StatsCharts from "./StatsCharts";
 
-const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn, refreshUrlData }) => {
+const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn, refreshUrlsData }) => {
+
+    const { token } = useStoreContext();
 
     //Config for date display style
     const date_options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -15,7 +20,7 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
     //Function to handle URL List refresh
     const handleRefreshList = () => {
         toast.promise(
-            refreshUrlData(),
+            refreshUrlsData(),
              {
                loading: 'Refreshing...',
                success: <>URLs list updated successfully!</>,
@@ -40,20 +45,27 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
         });
     }
 
-    const[selectedUrlData, setSelectedUrlData] = useState({id : -1});
+    const[selectedUrlData, setSelectedUrlData] = useState({id : -1, shortUrl : ""});
 
     useEffect(()=>{
-        console.log(selectedUrlData);
+        refreshSingleUrl(); //Whenever stats button is pressed, query service hook is called for refreshing single url stats
     },[selectedUrlData]);
 
     //Function to open specific Short URLs stats
     const handleOpenStats = (data) => {
         if(selectedUrlData && selectedUrlData.id === data.id){
-            setSelectedUrlData({id : -1});
+            setSelectedUrlData({id : -1, shortUrl : ""});
         } else{
             setSelectedUrlData(data);
         }
     }
+
+    const onError = () => {
+        console.log("ERROR!");
+    }
+
+    //Fetch specific url stats
+    const {isLoading : urlDataLoading, data : urlData, refetch : refreshSingleUrl} = useFetchSingleUrlStats(token, selectedUrlData.shortUrl, onError);
 
   return (
     <div className="mt-12">
@@ -75,11 +87,11 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
                     </h4>
                     <p className="font-medium text-sm text-gray-800 truncate mt-1">{url.originalUrl}</p>
                     <div className="flex items-center justify-start gap-7 mt-7 text-gray-600 font-bold text-sm">
-                        <div className="flex items-center gap-2 text-green-600">
-                            <TbHandClick />
+                        <div className="flex items-center gap-1 text-green-600">
+                            <span className="text-lg"><TbHandClick /></span>
                             <span>{url.clickCount} Clicks</span>
                         </div>
-                        <div className="flex items-center gap-2 text-slate-600">
+                        <div className="flex items-center gap-1.5 text-slate-600">
                             <FaRegCalendarAlt />
                             <span>{new Date(url.createdAt).toLocaleDateString("en-US", date_options)}</span>
                         </div>
@@ -106,8 +118,8 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
                     </div>
                     {
                         (url.id === selectedUrlData.id) ? 
-                        <div className="mt-2">
-                            Doggy!
+                        <div className="mt-10">
+                            <StatsCharts totalClickData={urlData}/>
                         </div>
                         : <></>
                     }
