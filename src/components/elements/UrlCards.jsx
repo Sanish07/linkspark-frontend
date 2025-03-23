@@ -67,6 +67,11 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
     //Fetch specific url stats
     const {isLoading : urlDataLoading, data : urlData, refetch : refreshSingleUrl} = useFetchSingleUrlStats(token, selectedUrlData.shortUrl, onError);
 
+    //Function to delete specific Short URL
+    const handleDeleteUrl = (data) => {
+        console.log(data);
+    }
+
   return (
     <div className="mt-12">
         <h3 className="flex justify-start items-center gap-2 text-lg font-semibold mb-4 text-gray-800">
@@ -110,7 +115,7 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
                             <ImStatsDots /> Stats
                         </button>
                         <button
-                            onClick={() => {}}
+                            onClick={() => handleDeleteUrl(url)}
                             className="flex items-center justify-center gap-1.5 w-23 lg:w-26 py-2 bg-indigo-500 text-white font-semibold rounded-full hover:bg-red-600 cursor-pointer transition-all"
                             disabled={loadingStateOn}>
                             <MdDelete /> Delete
@@ -119,7 +124,11 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
                     {
                         (url.id === selectedUrlData.id) ? 
                         <div className="mt-10">
-                            <StatsCharts totalClickData={urlData}/>
+                            {
+                                (urlDataLoading) 
+                                ? <div className="flex justify-center items-center">Loading...</div> 
+                                : <StatsCharts totalClickData={urlData}/>
+                            }
                         </div>
                         : <></>
                     }

@@ -69,7 +69,8 @@ export const useFetchSingleUrlStats = (token, url, onError) => {
         return date.toISOString().split(".")[0]; // Remove milliseconds and 'Z'
       };
 
-      const currentDate = new Date();
+      let currentDate = new Date();
+      currentDate = new Date(currentDate.getTime() +  24 * 60 * 60 * 1000); //Advance 24 hours, to see full current day's stats also
       const fourteenDaysAgo = new Date(currentDate.getTime() - 14 * 24 * 60 * 60 * 1000);
 
       const fromDate = formatDate(fourteenDaysAgo);

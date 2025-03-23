@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import ClickStatsLineChart from "./elements/charts/ClickStatsLineChart";
-import ClickStatsBarChart from "./elements/charts/ClickStatsBarChart";
 import { HiUsers } from "react-icons/hi2";
 import { FiLink, FiActivity, FiList, FiPlus, FiX, FiCheck } from "react-icons/fi";
 import { useStoreContext } from "../Contexts/ContextApi";
@@ -11,10 +9,9 @@ import { useForm } from "react-hook-form";
 import InputBox from "./elements/InputBox";
 import toast from "react-hot-toast";
 import { CreateNewShortURL } from "../services/UrlManagementAPI";
-import { IoCopy } from "react-icons/io5";
-import { RiDeleteBin2Fill } from "react-icons/ri";
 import UrlCards from "./elements/UrlCards";
 import StatsCharts from "./elements/StatsCharts";
+import { GetGlobalUsersCount } from "../services/AuthenticateAPI";
 
 const UserDashboard = () => {
   
@@ -71,6 +68,16 @@ const UserDashboard = () => {
     setLoadingStateOn(false);
   };
 
+  //Get total active users on our application(Global users count)
+  const[totalUsersCount, setTotalUsersCount] = useState("-");
+
+  GetGlobalUsersCount().then((response)=>{
+    setTotalUsersCount(response.data);
+  }).catch((res_error)=>{
+      const error_message = res_error.response.data ? res_error.response.data : "Encountered an issue while fetching Global Active Users count!!";
+      toast.error(error_message);
+  });
+
   // Display all User's URLs
   const dataFetchError = () => {
     console.log("ERROR!");
@@ -80,7 +87,7 @@ const UserDashboard = () => {
 
   //Stat Cards Info
   const stats_data = {
-    totalUsers : 300,
+    totalUsers : totalUsersCount,
     userLinks : (urls.length ? urls.length : "0"),
     totalUserLinksClicks : (urls.length > 0 ? 
       urls.reduce((total,currentUrl) => 
