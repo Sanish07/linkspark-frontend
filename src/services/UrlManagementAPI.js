@@ -16,3 +16,15 @@ export const CreateNewShortURL = async(data, token) => {
     return await Axios.post(route, data, header_data);
 };
 
+export const DeleteShortUrl = async(url, token) => {
+    const route = baseURL + "/api/urls/delete/" + url;
+
+    const header_data = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+          }
+    };
+
+    return await Axios.delete(route, header_data);
+};
+

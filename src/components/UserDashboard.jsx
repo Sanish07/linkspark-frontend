@@ -12,6 +12,7 @@ import { CreateNewShortURL } from "../services/UrlManagementAPI";
 import UrlCards from "./elements/UrlCards";
 import StatsCharts from "./elements/StatsCharts";
 import { GetGlobalUsersCount } from "../services/AuthenticateAPI";
+import LoadingSpinner from "./elements/LoadingSpinner";
 
 const UserDashboard = () => {
   
@@ -26,8 +27,7 @@ const UserDashboard = () => {
     console.log("ERROR!");
   }
 
-  const {isLoading : isClickDataLoading, data : totalClickData} = useFetchTotalClicks(token, onError);
-
+  const { isLoading : isClickDataLoading, data : totalClickData} = useFetchTotalClicks(token, onError);
 
   //Short URL creation
   const [isCreating, setIsCreating] = useState(false);
@@ -101,7 +101,7 @@ const UserDashboard = () => {
   return (
     <>
       { isClickDataLoading ? 
-      <div className="flex justify-center items-center">Loading...</div> 
+        <div className="min-h-163 flex items-center justify-center"><LoadingSpinner size={100}/></div> 
       : <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
         {/* Dashboard Sidebar (Left side) */}
         <aside className="w-full md:w-1/4 lg:w-1/5 bg-gray-800 shadow-lg p-6 md:min-h-screen">

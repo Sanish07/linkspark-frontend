@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 import { useFetchSingleUrlStats } from "../../services/QueryService";
 import { useStoreContext } from "../../Contexts/ContextApi";
 import StatsCharts from "./StatsCharts";
+import LoadingSpinner from "./LoadingSpinner";
+import { DeleteShortUrl } from "../../services/UrlManagementAPI";
 
 const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn, refreshUrlsData }) => {
 
@@ -65,11 +67,21 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
     }
 
     //Fetch specific url stats
-    const {isLoading : urlDataLoading, data : urlData, refetch : refreshSingleUrl} = useFetchSingleUrlStats(token, selectedUrlData.shortUrl, onError);
+    const { isLoading : urlDataLoading, data : urlData, refetch : refreshSingleUrl} = useFetchSingleUrlStats(token, selectedUrlData.shortUrl, onError);
 
     //Function to delete specific Short URL
     const handleDeleteUrl = (data) => {
-        console.log(data);
+        // console.log(data.shortUrl);
+        let deletion_res = 
+                window.confirm("Are you sure you want to delete the short url : /"+ data.shortUrl);
+        if(deletion_res){        
+            DeleteShortUrl(data.shortUrl, token).then((response)=>{
+                toast.success("URL deleted successfully!!");
+                refreshUrlsData();
+            }).catch((err)=>{
+                toast.error("Encountered issues while deleting the URL.");
+            });
+        }
     }
 
   return (
@@ -123,10 +135,10 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
                     </div>
                     {
                         (url.id === selectedUrlData.id) ? 
-                        <div className="mt-10">
+                        <div className="mt-10 mb-10">
                             {
                                 (urlDataLoading) 
-                                ? <div className="flex justify-center items-center">Loading...</div> 
+                                ? <LoadingSpinner size={60}/> 
                                 : <StatsCharts totalClickData={urlData}/>
                             }
                         </div>
