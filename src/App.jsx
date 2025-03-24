@@ -8,22 +8,16 @@ import Footer from "./components/elements/Footer";
 import Signup from "./components/SignUp";
 import Login from "./components/Login";
 import UserDashboard from "./components/UserDashboard";
+import { resolveSubdomain } from "./utilities/resolver";
 
 function App() {
   
+  const AccessComponent = resolveSubdomain();
+
   return (
     <>
       <BrowserRouter>
-        <Toaster position="bottom-center"/>
-        <Navbar/>
-          <Routes>
-            <Route path="/" element={<HomePage/>}/>
-            <Route path="/dashboard" element={<UserDashboard/>}/>
-            <Route path="/signup" element={<Signup/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/about" element={<AboutUs/>}/>
-          </Routes>
-        <Footer/>
+        <AccessComponent/>
       </BrowserRouter>
     </>
   );

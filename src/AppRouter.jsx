@@ -9,6 +9,7 @@ import Signup from "./components/SignUp";
 import Login from "./components/Login";
 import UserDashboard from "./components/UserDashboard";
 import UrlRedirectionPage from './components/UrlRedirectionPage';
+import AuthenticatedRoutes from './configurations/AuthenticatedRoutes';
 
 export const SubdomainRouter = () => {
     return(
@@ -20,18 +21,39 @@ export const SubdomainRouter = () => {
 
 const AppRouter = () => {
   return (
-    <BrowserRouter>
+    <>
         <Toaster position="bottom-center"/>
         <Navbar/>
           <Routes>
             <Route path="/" element={<HomePage/>}/>
-            <Route path="/dashboard" element={<UserDashboard/>}/>
-            <Route path="/signup" element={<Signup/>}/>
-            <Route path="/login" element={<Login/>}/>
             <Route path="/about" element={<AboutUs/>}/>
+
+            //Authenticated Routes
+            <Route path="/dashboard" 
+            element={
+              <AuthenticatedRoutes isPublicPage={false}>
+                <UserDashboard/>
+              </AuthenticatedRoutes>
+            }/>
+
+            //Public Routes
+            <Route path="/signup" 
+            element={
+              <AuthenticatedRoutes isPublicPage={true}>
+                <Signup/>
+              </AuthenticatedRoutes>
+            }/>
+
+            <Route path="/login" 
+            element={
+              <AuthenticatedRoutes isPublicPage={true}>
+                <Login/>
+              </AuthenticatedRoutes>
+            }/>
+
           </Routes>
         <Footer/>
-    </BrowserRouter>
+    </>
   )
 }
 
