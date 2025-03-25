@@ -2,6 +2,7 @@ import React from "react";
 import { FaChartBar } from "react-icons/fa";
 import { FaSlideshare, FaBolt } from "react-icons/fa6";
 import { MdOutlineSecurity } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   
@@ -20,13 +21,12 @@ const HomePage = () => {
                 Linkspark makes link management effortless. Generate short links, track real-time stats,  
                 and customize URLs to enhance your brand's visibility—all in just a few clicks.
                 </p>
-                <div className="flex gap-5 items-center">
-                  <button className="mt-6 px-5 py-3 bg-custom-gradient-1 text-white font-semibold shadow-custom rounded-lg home-btn-1">
-                      Generate Short Link!
-                  </button>
-                  <button className="mt-6 px-5 py-3 font-semibold rounded-lg home-btn-2 shadow-custom">
-                      Configure Links
-                  </button>
+                <div className="flex justify-center md:justify-start items-center">
+                  <Link to={"/dashboard"}>
+                    <button className="mt-6 px-5 py-3 bg-custom-gradient-1 text-white font-semibold shadow-custom rounded-lg home-btn-1">
+                        Generate Short Link!
+                    </button>
+                  </Link>
                 </div>
             </div>
             <div className="mt-6 md:mt-0">

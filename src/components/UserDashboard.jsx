@@ -13,6 +13,7 @@ import UrlCards from "./elements/UrlCards";
 import StatsCharts from "./elements/StatsCharts";
 import { GetGlobalUsersCount } from "../services/AuthenticateAPI";
 import LoadingSpinner from "./elements/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 const UserDashboard = () => {
   
@@ -22,9 +23,11 @@ const UserDashboard = () => {
   //Token from Context API
   const { token } = useStoreContext();
 
+  const navigate = useNavigate();
+
   //React Query states and funs
   const onError = () => {
-    console.log("ERROR!");
+    navigate("/error");
   }
 
   const { isLoading : isClickDataLoading, data : totalClickData} = useFetchTotalClicks(token, onError);
@@ -80,7 +83,7 @@ const UserDashboard = () => {
 
   // Display all User's URLs
   const dataFetchError = () => {
-    console.log("ERROR!");
+    toast.error("Could not fetch all URLs data!");
   }
 
   const {isLoading : isUrlDataLoading, data : urls = [], refetch : refreshUrlData} = useFetchAllUrlData(token, dataFetchError);
