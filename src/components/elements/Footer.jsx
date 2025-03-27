@@ -17,7 +17,7 @@ const Footer = () => {
         {/* Social Links */}
         <div className="flex space-x-4 mt-2 md:mt-0">
           <a
-            href="https://github.com/your-profile"
+            href="https://github.com/Sanish07/"
             target="_blank"
             rel="noopener noreferrer"
             className="transition-transform transform hover:scale-110"
@@ -25,7 +25,7 @@ const Footer = () => {
             <FaGithub className="text-2xl hover:text-gray-300" />
           </a>
           <a
-            href="https://linkedin.com/in/your-profile"
+            href="https://www.linkedin.com/in/sanish-nirwan/"
             target="_blank"
             rel="noopener noreferrer"
             className="transition-transform transform hover:scale-110"
