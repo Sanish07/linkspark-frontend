@@ -18,7 +18,10 @@ import { useNavigate } from "react-router-dom";
 const UserDashboard = () => {
   
   //Short URL links redirection subdomain 
-  const client_subdomain_url = import.meta.env.VITE_CLIENT_SUBDOMAIN_URL;
+  // const client_subdomain_url = import.meta.env.VITE_CLIENT_SUBDOMAIN_URL;
+
+  //Short URL links redirection path 
+  const client_url = import.meta.env.VITE_CLIENT_URL;
 
   //Token from Context API
   const { token } = useStoreContext();
@@ -55,7 +58,7 @@ const UserDashboard = () => {
 
     CreateNewShortURL(data,token).then((response)=>{
       const generated_s_url = 
-            response.data.shortUrl ? `${client_subdomain_url}/${response.data.shortUrl}` : "";
+            response.data.shortUrl ? `${client_url}/l/${response.data.shortUrl}` : "";
 
       navigator.clipboard.writeText(generated_s_url); //Copy newly generated short url to clipboard
       reset(); // Resetting the URL enter field
@@ -200,7 +203,7 @@ const UserDashboard = () => {
             <UrlCards 
               isUrlDataLoading={isUrlDataLoading} 
               urls={urls} 
-              client_subdomain_url={client_subdomain_url} 
+              client_url={client_url} 
               loadingStateOn={loadingStateOn}
               refreshUrlsData={refreshUrlData}/>
             

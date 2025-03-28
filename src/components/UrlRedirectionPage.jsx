@@ -10,7 +10,11 @@ const UrlRedirectionPage = () => {
         }
     },[url]);
 
-  return null;
+  return (
+        <article className="flex items-center justify-center text-lg min-h-screen">
+            Redirecting...
+        </article>
+  ); 
 }
 
 export default UrlRedirectionPage;

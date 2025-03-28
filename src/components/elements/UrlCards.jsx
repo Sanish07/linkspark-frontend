@@ -12,7 +12,7 @@ import StatsCharts from "./StatsCharts";
 import LoadingSpinner from "./LoadingSpinner";
 import { DeleteShortUrl } from "../../services/UrlManagementAPI";
 
-const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn, refreshUrlsData }) => {
+const UrlCards = ({ isUrlDataLoading, urls, client_url, loadingStateOn, refreshUrlsData }) => {
 
     const { token } = useStoreContext();
 
@@ -99,7 +99,7 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
                 <div key={index} className="bg-white shadow-lg rounded-lg p-4 border border-gray-300">
                     <h4
                         className="inline-flex gap-1 justify-start items-center text-blue-500 font-bold text-md cursor-pointer truncate hover:underline">
-                            <span onClick={() => handleShortUrlClick(`${client_subdomain_url}/${url.shortUrl}`)}>{`${client_subdomain_url}/${url.shortUrl}`}</span>
+                            <span onClick={() => handleShortUrlClick(`${client_url}/l/${url.shortUrl}`)}>{`${client_url}/l/${url.shortUrl}`}</span>
                             <IoIosNavigate />
                     </h4>
                     <p className="font-medium text-sm text-gray-800 truncate mt-1">{url.originalUrl}</p>
@@ -115,7 +115,7 @@ const UrlCards = ({ isUrlDataLoading, urls, client_subdomain_url, loadingStateOn
                     </div>
                     <div className="flex justify-end items-center gap-2 mt-4">
                         <button
-                            onClick={() => handleCopyUrl(`${client_subdomain_url}/${url.shortUrl}`)}
+                            onClick={() => handleCopyUrl(`${client_url}/l/${url.shortUrl}`)}
                             className="flex items-center justify-center gap-1.5 w-23 lg:w-26 py-2 bg-sky-500 text-white font-semibold rounded-full hover:bg-green-400 cursor-pointer transition-all"
                             disabled={loadingStateOn}>
                             <IoCopy/> Copy

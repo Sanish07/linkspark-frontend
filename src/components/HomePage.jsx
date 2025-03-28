@@ -19,7 +19,7 @@ const HomePage = () => {
                 </h2>
                 <p className="text-lg text-gray-600 mt-4">
                 Linkspark makes link management effortless. Generate short links, track real-time stats,  
-                and customize URLs to enhance your brand's visibility—all in just a few clicks.
+                and Share URLs with ease to enhance your brand's visibility—all in just a few clicks.
                 </p>
                 <div className="flex justify-center md:justify-start items-center">
                   <Link to={"/dashboard"}>

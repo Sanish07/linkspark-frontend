@@ -63,6 +63,12 @@ const AppRouter = () => {
               <ErrorPage message={"Cannot find the requested page, it was either permenantly removed or never existed!"}/>
             }/>
 
+            //Url redirection route
+            <Route path="/l/:url"
+            element={
+              <UrlRedirectionPage/>
+            }/>
+
           </Routes>
         <Footer/>
     </>
