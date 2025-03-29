@@ -98,11 +98,11 @@ const UrlCards = ({ isUrlDataLoading, urls, client_url, loadingStateOn, refreshU
                 urls.map((url, index) => (
                 <div key={index} className="bg-white shadow-lg rounded-lg p-4 border border-gray-300">
                     <h4
-                        className="inline-flex gap-1 justify-start items-center text-blue-500 font-bold text-md cursor-pointer truncate hover:underline">
+                        className="inline-flex gap-1 justify-start items-center text-blue-500 font-bold text-xs md:text-base cursor-pointer truncate hover:underline">
                             <span onClick={() => handleShortUrlClick(`${client_url}/l/${url.shortUrl}`)}>{`${client_url}/l/${url.shortUrl}`}</span>
                             <IoIosNavigate />
                     </h4>
-                    <p className="font-medium text-sm text-gray-800 truncate mt-1">{url.originalUrl}</p>
+                    <p className="font-medium text-xs md:text-sm text-gray-800 truncate mt-1">{url.originalUrl}</p>
                     <div className="flex items-center justify-start gap-7 mt-7 text-gray-600 font-bold text-sm">
                         <div className="flex items-center gap-1 text-green-600">
                             <span className="text-lg"><TbHandClick /></span>
@@ -113,7 +113,7 @@ const UrlCards = ({ isUrlDataLoading, urls, client_url, loadingStateOn, refreshU
                             <span>{new Date(url.createdAt).toLocaleDateString("en-US", date_options)}</span>
                         </div>
                     </div>
-                    <div className="flex justify-end items-center gap-2 mt-4">
+                    <div className="flex justify-end items-center gap-2 mt-4 text-sm md:text-base">
                         <button
                             onClick={() => handleCopyUrl(`${client_url}/l/${url.shortUrl}`)}
                             className="flex items-center justify-center gap-1.5 w-23 lg:w-26 py-2 bg-sky-500 text-white font-semibold rounded-full hover:bg-green-400 cursor-pointer transition-all"

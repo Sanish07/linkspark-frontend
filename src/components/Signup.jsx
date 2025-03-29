@@ -35,9 +35,9 @@ const Signup = () => {
     }).catch((res_error)=>{
       const error_message = res_error.response.data ? res_error.response.data : "Encountered an issue while signing up the user!!";
       toast.error(error_message);
+    }).finally(()=>{
+      setLoadingStateOn(false);
     });
-
-    setLoadingStateOn(false);
   };
 
   return (

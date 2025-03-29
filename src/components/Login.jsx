@@ -31,7 +31,6 @@ const Login = () => {
     setLoadingStateOn(true);
     
     LoginUser(data).then((response) => { //Making API call for user login
-      
       localStorage.setItem("LS_JWT_TOKEN",JSON.stringify(response.data.token));
       setToken(response.data.token); //Setting the JWT token in the application context 
       
@@ -41,9 +40,9 @@ const Login = () => {
     }).catch((res_error)=>{
       const error_message = res_error.message ? res_error.message + ". Make sure Username and Password are correct." : "Encountered an issue while logging in the user!!";
       toast.error(error_message);
+    }).finally(()=>{
+      setLoadingStateOn(false);
     });
-
-    setLoadingStateOn(false);
   };
 
   return (
